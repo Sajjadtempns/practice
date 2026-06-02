@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 bnazanin">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3><strong>پروفایل کاربری</strong></h3>
+                </div>
+                <div class="card-body endtext sahel text-end">
+                    <p>{{ user.username }}<strong> :نام کاربری</strong></p>
+                    <p><strong>نام:</strong> {{ profile.fname }}</p>
+                    <p><strong>نام خانوادگی:</strong> {{ profile.lname }}</p>
+                    <p><strong>تلفن همراه:</strong> {{ profile.num }}</p>
+                    <a href="#" class="btn btn-warning">ویرایش پروفایل</a>
+                    <a href="{% url 'loging_out' %}" class="btn btn-danger">خروج از حساب</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

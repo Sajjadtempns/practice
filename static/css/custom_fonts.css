@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'BNazanin';
+    src: url('../fonts/BNAZANIN.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.bnazanin {
+    font-family: 'BNazanin', 'Times New Roman', Tahoma, sans-serif, Arial;
+}
+
+@font-face {
+    font-family: 'Sahel';
+    src: url('../fonts/Sahel.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Sahel.woff') format('woff'),
+         url('../fonts/Sahel.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Sahel';
+    src: url('../fonts/Sahel-Bold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Sahel-Bold.woff') format('woff'),
+         url('../fonts/Sahel-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Sahel';
+    src: url('../fonts/Sahel-Black.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Sahel-Black.woff') format('woff'),
+         url('../fonts/Sahel-Black.ttf') format('truetype');
+    font-weight: 900;
+}
+
+.sahel {
+    font-family: 'Sahel', 'Times New Roman', Tahoma, sans-serif, Arial;
+}
