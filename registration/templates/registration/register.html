@@ -1,17 +1,77 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5 pt-5 bnazanin">
+<div class="container mt-5 pt-5 sahel">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card border-primary mb-3" style="max-width: ;">
+            <div class="card border-primary mb-3">
                 <div class="card text-bg-dark mb-3">
-                    <h4 class= "my-3 text-center"><strong>فرم ثبت‌ نام</strong></h4>
+                    <h4 class="my-3 text-center"><strong>فرم ثبت‌ نام</strong></h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" enctype="multipart/form-data" class= "my-2 text-end">
-                        {% csrf_token %}
-                        {{ form.as_p }}
+                    <form method="post" enctype="multipart/form-data" class="my-2 text-end" novalidate>
+                        {% csrf_token %}                        
+                        <div class="mb-3">
+                            <label for="{{ form.fname.id_for_label }}" class="form-label">{{ form.fname.label }}</label>
+                            <input type="text" name="{{ form.fname.html_name }}" id="{{ form.fname.id_for_label }}" 
+                                   class="form-control text-end {% if form.fname.errors %}is-invalid{% endif %}" 
+                                   value="{{ form.fname.value|default:'' }}"
+                                   placeholder= "نام خود را وارد کنید">
+                            {% if form.fname.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.fname.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for= "{{ form.lname.id_for_label }}" class= "form-label">{{ form.lname.label }}</label>
+                            <input type= "text" name="{{ form.lname.html_name }}" id= "{{ form.lname.id_for_label }}" 
+                                   class= "form-control text-end {% if form.lname.errors %}is-invalid{% endif %}" 
+                                   value= "{{ form.lname.value|default:'' }}"
+                                   placeholder= "نام خانوادگی خود را وارد کنید">
+                            {% if form.lname.errors %}
+                                <div class="invalid-feedback d-block">{{ form.lname.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.num.id_for_label }}" class="form-label">{{ form.num.label }}</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text"></span>
+                                <input type="text" name="{{ form.num.html_name }}" id="{{ form.num.id_for_label }}" 
+                                       class="form-control text-end {% if form.num.errors %}is-invalid{% endif %}" 
+                                       value="{{ form.num.value|default:'' }}"
+                                       placeholder="09123456789">
+                                {% if form.num.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.num.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
+                            <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" 
+                                   class="form-control text-end {% if form.username.errors %}is-invalid{% endif %}" 
+                                   value="{{ form.username.value|default:'' }}">
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback d-block">{{ form.username.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
+                            <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}" 
+                                   class="form-control text-end {% if form.password.errors %}is-invalid{% endif %}" 
+                                   value="{{ form.password.value|default:'' }}"
+                                   placeholder="حداقل 8 کاراکتر حروف یا اعداد">
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback d-block">{{ form.password.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
                         <button type="submit" class="btn btn-success">ثبت نام</button>
                     </form>
                 </div>
@@ -20,7 +80,6 @@
     </div>
 </div>
 <div class="text-center mt-2 mb-5">
-    <a href="{% url "login" %}">حساب کاربری دارید؟ ورود کنید</a>
+    <a href="{% url 'login' %}">حساب کاربری دارید؟ وارد شوید</a>
 </div>
-{% endblock  %}
-</html>
+{% endblock %}

@@ -16,15 +16,19 @@
         <a class="navbar-brand sahel ms-2" href="{% url 'home' %}">خانه</a>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active sahel" href="{% url 'register' %}"><strong>ورود</strong></a>
+            <a class="nav-link active sahel" href="{% url 'register' %}"><strong>پروفایل کاربری</strong></a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-</body>
+<div class="card border-light mb-3 text-center">
+  <div class="card-header"></div>
+  <div class="card-body">
 {% block content %}
 
 {% endblock  %}
-
+  </div>
+</div>
+</body>
 </html>
