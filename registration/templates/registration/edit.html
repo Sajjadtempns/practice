@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 sahel">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card border-primary text-bg-dark">
+                <div class="card-header text-center">
+                    <h2 class="mb-0">ویرایش مشخصات</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" novalidate class="row g-3">
+                        {% csrf_token %}
+
+                        <div class="col-md-4">
+                            <label for="{{ form.fname.id_for_label }}" class="form-label">{{ form.fname.label }}</label>
+                            <input type="text" name="{{ form.fname.html_name }}" id="{{ form.fname.id_for_label }}" 
+                                class="form-control text-end {% if form.fname.errors %}is-invalid{% endif %}" 
+                                value="{{ form.fname.value|default:'' }}"
+                                placeholder="نام خود را وارد کنید">
+                            {% if form.fname.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.fname.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- نام خانوادگی -->
+                        <div class="col-md-4">
+                            <label for="{{ form.lname.id_for_label }}" class="form-label">{{ form.lname.label }}</label>
+                            <input type="text" name="{{ form.lname.html_name }}" id="{{ form.lname.id_for_label }}" 
+                                class="form-control text-end {% if form.lname.errors %}is-invalid{% endif %}" 
+                                value="{{ form.lname.value|default:'' }}"
+                                placeholder="نام خانوادگی خود را وارد کنید">
+                            {% if form.lname.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.lname.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- ایمیل -->
+                        <div class="col-md-4">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                            <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" 
+                                class="form-control text-end {% if form.email.errors %}is-invalid{% endif %}" 
+                                value="{{ form.email.value|default:'' }}"
+                                placeholder="example@gmail.com">
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.email.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- نام پدر -->
+                        <div class="col-md-4">
+                            <label for="{{ form.father_name.id_for_label }}" class="form-label">{{ form.father_name.label }}</label>
+                            <input type="text" name="{{ form.father_name.html_name }}" id="{{ form.father_name.id_for_label }}" 
+                                   class="form-control text-end {% if form.father_name.errors %}is-invalid{% endif %}" 
+                                   value="{{ form.father_name.value|default:'' }}">
+                            {% if form.father_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.father_name.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- جنسیت -->
+                        <div class="col-md-4">
+                            <label for="{{ form.sex.id_for_label }}" class="form-label">{{ form.sex.label }}</label>
+                            <select name="{{ form.sex.html_name }}" id="{{ form.sex.id_for_label }}" 
+                                   class="form-select text-end {% if form.sex.errors %}is-invalid{% endif %}">
+                                <option selected disabled value="">...انتخاب کنید</option>
+                                <option value="man" {% if form.sex.value == 'man' %}selected{% endif %}>مرد</option>
+                                <option value="woman" {% if form.sex.value == 'woman' %}selected{% endif %}>زن</option>
+                            </select>
+                            {% if form.sex.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.sex.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- کد ملی -->
+                        <div class="col-md-4">
+                            <label for="{{ form.national_num.id_for_label }}" class="form-label">{{ form.national_num.label }}</label>
+                            <input type="text" name="{{ form.national_num.html_name }}" id="{{ form.national_num.id_for_label }}" 
+                                   class="form-control text-end {% if form.national_num.errors %}is-invalid{% endif %}" 
+                                   value="{{ form.national_num.value|default:'' }}"
+                                   placeholder="کد ملی خود را وارد کنید">
+                            {% if form.national_num.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.national_num.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- تاریخ تولد -->
+                        <div class="col-md-4">
+                            <label for="{{ form.birth_date.id_for_label }}" class="form-label">{{ form.birth_date.label }}</label>
+                            <input type="text" name="{{ form.birth_date.html_name }}" id="{{ form.birth_date.id_for_label }}" 
+                                   class="form-control text-end {% if form.birth_date.errors %}is-invalid{% endif %}" 
+                                   value="{{ form.birth_date.value|default:'' }}"
+                                   placeholder="YYYY/MM/DD">
+                            {% if form.birth_date.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.birth_date.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- استان محل تولد -->
+                        <div class="col-md-4">
+                            <label for="{{ form.birth_province.id_for_label }}" class="form-label">{{ form.birth_province.label }}</label>
+                            <select name="{{ form.birth_province.html_name }}" id="{{ form.birth_province.id_for_label }}" 
+                                   class="form-select text-end {% if form.birth_province.errors %}is-invalid{% endif %}">
+                                <option selected disabled value="">...انتخاب کنید</option>
+                                {% for province in form.birth_province.field.queryset %}
+                                    <option value="{{ province.id }}" {% if form.birth_province.value == province.id %}selected{% endif %}>
+                                        {{ province.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% if form.birth_province.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.birth_province.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- شهر محل تولد -->
+                        <div class="col-md-4">
+                            <label for="{{ form.birth_city.id_for_label }}" class="form-label">{{ form.birth_city.label }}</label>
+                            <select name="{{ form.birth_city.html_name }}" id="{{ form.birth_city.id_for_label }}" 
+                                   class="form-select text-end {% if form.birth_city.errors %}is-invalid{% endif %}">
+                                <option selected disabled value="">...انتخاب کنید</option>
+                                {% if form.birth_city.field.queryset %}
+                                    {% for city in form.birth_city.field.queryset %}
+                                        <option value="{{ city.id }}" {% if form.birth_city.value == city.id %}selected{% endif %}>
+                                            {{ city.name }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            {% if form.birth_city.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.birth_city.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- استان محل سکونت -->
+                        <div class="col-md-4">
+                            <label for="{{ form.province.id_for_label }}" class="form-label">{{ form.province.label }}</label>
+                            <select name="{{ form.province.html_name }}" id="{{ form.province.id_for_label }}" 
+                                   class="form-select text-end {% if form.province.errors %}is-invalid{% endif %}">
+                                <option selected disabled value="">...انتخاب کنید</option>
+                                {% for province in form.province.field.queryset %}
+                                    <option value="{{ province.id }}" {% if form.province.value == province.id %}selected{% endif %}>
+                                        {{ province.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% if form.province.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.province.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- شهر محل سکونت -->
+                        <div class="col-md-4">
+                            <label for="{{ form.city.id_for_label }}" class="form-label">{{ form.city.label }}</label>
+                            <select name="{{ form.city.html_name }}" id="{{ form.city.id_for_label }}" 
+                                   class="form-select text-end {% if form.city.errors %}is-invalid{% endif %}">
+                                <option selected disabled value="">...انتخاب کنید</option>
+                                {% if form.city.field.queryset %}
+                                    {% for city in form.city.field.queryset %}
+                                        <option value="{{ city.id }}" {% if form.city.value == city.id %}selected{% endif %}>
+                                            {{ city.name }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            {% if form.city.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.city.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- آدرس محل سکونت -->
+                        <div class="col-md-4">
+                            <label for="{{ form.location.id_for_label }}" class="form-label">{{ form.location.label }}</label>
+                            <textarea name="{{ form.location.html_name }}" id="{{ form.location.id_for_label }}" 
+                                   class="form-control text-end {% if form.location.errors %}is-invalid{% endif %}" 
+                                   rows="3">{{ form.location.value|default:'' }}</textarea>
+                            {% if form.location.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.location.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- مدرک تحصیلی -->
+                        <div class="col-md-4">
+                            <label for="{{ form.degree.id_for_label }}" class="form-label">{{ form.degree.label }}</label>
+                            <select name="{{ form.degree.html_name }}" id="{{ form.degree.id_for_label }}" 
+                                   class="form-select text-end {% if form.degree.errors %}is-invalid{% endif %}">
+                                <option selected disabled value="">...انتخاب کنید</option>
+                                {% for value, label in form.degree.field.choices %}
+                                    <option value="{{ value }}" {% if form.degree.value == value %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% if form.degree.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.degree.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- مدرک تحصیلی -->
+                        <div class="col-md-4">
+                            <label for="{{ form.degree_certificate.id_for_label }}" class="form-label">{{ form.degree_certificate.label }}</label>
+                            <input type="file" name="{{ form.degree_certificate.html_name }}" id="{{ form.degree_certificate.id_for_label }}" 
+                                   class="form-control {% if form.degree_certificate.errors %}is-invalid{% endif %}">
+                            {% if form.degree_certificate.value %}
+                                <small class="text-muted d-block">فایل موجود: {{ form.degree_certificate.value|default:'' }}</small>
+                            {% endif %}
+                            {% if form.degree_certificate.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.degree_certificate.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- عکس پرسنلی -->
+                        <div class="col-md-4">
+                            <label for="{{ form.photo.id_for_label }}" class="form-label">{{ form.photo.label }}</label>
+                            <input type="file" name="{{ form.photo.html_name }}" id="{{ form.photo.id_for_label }}" 
+                                   class="form-control {% if form.photo.errors %}is-invalid{% endif %}">
+                            {% if form.photo.value %}
+                                <small class="text-muted d-block">فایل موجود: {{ form.photo.value|default:'' }}</small>
+                            {% endif %}
+                            {% if form.photo.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.photo.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- دکمه‌ها -->
+                        <div class="col-12 d-flex justify-content-between gap-2 mt-4">
+                            <button type="submit" name="normal_save" class="btn btn-success px-4">ذخیره تغییرات</button>
+                            <a href="{% url 'profile' %}" class="btn btn-danger px-4">انصراف</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // --- مدیریت برای استان و شهر محل تولد ---
+        $("#id_birth_province").change(function () {
+            var provinceId = $(this).val();
+            
+            if (!provinceId) {
+                $("#id_birth_city").empty();
+                $("#id_birth_city").append('<option value="">---------</option>');
+                return;
+            }
+            
+            var url = "{% url 'load_cities' %}";
+            
+            $.ajax({
+                url: url,
+                data: {
+                    'province_id': provinceId
+                },
+                success: function (data) {
+                    $("#id_birth_city").empty();
+                    $("#id_birth_city").append('<option value="">---------</option>');
+                    
+                    $.each(data, function (index, city) {
+                        $("#id_birth_city").append('<option value="' + city.id + '">' + city.name + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("خطا در دریافت شهرها:", error);
+                }
+            });
+        });
+        
+        // --- مدیریت برای استان و شهر محل سکونت ---
+        $("#id_province").change(function () {
+            var provinceId = $(this).val();
+            
+            if (!provinceId) {
+                $("#id_city").empty();
+                $("#id_city").append('<option value="">---------</option>');
+                return;
+            }
+            
+            var url = "{% url 'load_cities' %}";
+            
+            $.ajax({
+                url: url,
+                data: {
+                    'province_id': provinceId
+                },
+                success: function (data) {
+                    $("#id_city").empty();
+                    $("#id_city").append('<option value="">---------</option>');
+                    
+                    $.each(data, function (index, city) {
+                        $("#id_city").append('<option value="' + city.id + '">' + city.name + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("خطا در دریافت شهرها:", error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

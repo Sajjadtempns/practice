@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'registration.apps.RegistrationConfig',
+    'iranian_cities',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
