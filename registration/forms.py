@@ -2,7 +2,7 @@ from django import forms
 from .models import Profile, Info
 from django.core.validators import RegexValidator
 from iranian_cities.models import City
-
+import jdatetime
 
 class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-end'}), label='نام کاربری')
@@ -48,8 +48,8 @@ class ProfileEditInfo(forms.ModelForm):
         required=False
     )
 
-    birth_date = forms.DateField(
-        widget= forms.DateInput(attrs= {'class': 'form-control text-end', 'type': 'date'}),
+    birth_date = forms.CharField(
+        widget= forms.TextInput(attrs={'class':'form-control text-end jalali_datepicker', 'placeholder':'YYYY/MM/DD'}),
         label= 'تاریخ تولد',
         required=False
     )
@@ -101,14 +101,69 @@ class ProfileEditInfo(forms.ModelForm):
             "location": forms.Textarea(attrs= {'class': 'form-control text-end'}),
             "degree": forms.Select(attrs= {'class': 'form-control text-end', 'placeholder': 'انتخاب کنید'}),
         }
+    
         
-        def __init__(self, *args, **kwargs):
-            super.__init__(*args, **kwargs)
-            self.fields["birth_city"].queryset = City.objects.none()
-            self.fields["city"].queryset = City.objects.none()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["birth_city"].queryset = City.objects.none()
+        self.fields["city"].queryset = City.objects.none()
+        if 'birth_province' in self.data:
+            try:
+                province_id = self.data.get('birth_province')
 
-            if self.instance and self.instance.pk:
-                if self.instance.birth_province:
-                    self.fields["birth_province"].queryset = City.objects.filter(province = self.instance.birth_province)
-                if self.instance.province:
-                    self.fields['city'].queryset = City.objects.filter(province=self.instance.province)
+                self.fields['birth_city'].queryset = City.objects.filter(
+                    province_id=province_id
+                )
+
+            except (ValueError, TypeError):
+                pass
+
+
+        if 'province' in self.data:
+            try:
+                province_id = self.data.get('province')
+
+                self.fields['city'].queryset = City.objects.filter(
+                    province_id=province_id
+                )
+
+            except (ValueError, TypeError):
+                pass
+
+        if self.instance and self.instance.pk:
+
+            if self.instance.birth_province:
+                self.fields["birth_city"].queryset = City.objects.filter(
+                    province=self.instance.birth_province
+                )
+
+            if self.instance.province:
+                self.fields["city"].queryset = City.objects.filter(
+                    province=self.instance.province
+                )
+
+            if self.instance.birth_date:
+                jdate = jdatetime.date.fromgregorian(
+                    date=self.instance.birth_date
+                )
+                self.initial["birth_date"] = jdate.strftime("%Y/%m/%d")
+
+    def clean_birth_date(self):
+        value = self.cleaned_data.get("birth_date")
+
+        if not value:
+            return None
+
+        try:
+            y, m, d = map(int, value.split("/"))
+
+            return jdatetime.date(
+                y,
+                m,
+                d
+            ).togregorian()
+
+        except Exception:
+            raise forms.ValidationError(
+                "فرمت تاریخ صحیح نیست"
+            )

@@ -13,6 +13,7 @@
                     <form method="post" enctype="multipart/form-data" novalidate class="row g-3">
                         {% csrf_token %}
 
+                        <!-- نام -->
                         <div class="col-md-4">
                             <label for="{{ form.fname.id_for_label }}" class="form-label">{{ form.fname.label }}</label>
                             <input type="text" name="{{ form.fname.html_name }}" id="{{ form.fname.id_for_label }}" 
@@ -100,10 +101,7 @@
                         <!-- تاریخ تولد -->
                         <div class="col-md-4">
                             <label for="{{ form.birth_date.id_for_label }}" class="form-label">{{ form.birth_date.label }}</label>
-                            <input type="text" name="{{ form.birth_date.html_name }}" id="{{ form.birth_date.id_for_label }}" 
-                                   class="form-control text-end {% if form.birth_date.errors %}is-invalid{% endif %}" 
-                                   value="{{ form.birth_date.value|default:'' }}"
-                                   placeholder="YYYY/MM/DD">
+                            {{ form.birth_date }}
                             {% if form.birth_date.errors %}
                                 <div class="invalid-feedback d-block">
                                     {% for error in form.birth_date.errors %}{{ error }}{% endfor %}
@@ -267,7 +265,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         // --- مدیریت برای استان و شهر محل تولد ---
@@ -332,5 +329,27 @@
             });
         });
     });
+    $(document).ready(function () {
+
+        $(".jalali_datepicker").persianDatepicker({
+
+            format: 'YYYY/MM/DD',
+
+            autoClose: true,
+
+            initialValue: false,
+
+            observer: true,
+
+            calendar: {
+                persian: {
+                    locale: 'fa'
+                }
+            }
+
+        });
+
+    });
+    console.log($('.jalali_datepicker').length);
 </script>
 {% endblock %}

@@ -8,8 +8,26 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <link rel="stylesheet" href= "{% static 'css/custom_fonts.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
 </head>
 <body class= "sahel">
+  <script>
+    $(document).ready(function() {
+      $('.jalali_datepicker').persianDatepicker({
+        format: 'YYYY/MM/DD',
+        autoClose: true,
+        initialValueType: 'persian',
+        calendar: {
+        persian: {
+           locale: 'fa'
+        }
+      }
+    });
+  });
+    </script>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid d-flex">
       <div class="d-flex ms-auto align-items-center flex-row-reverse">
@@ -22,16 +40,17 @@
       </div>
     </div>
   </nav>
-<div class="card border-light mb-3 text-center">
-  <div class="card-header"></div>
-  <div class="card-body">
-{% block content %}
+  <div class="card border-light mb-3 text-center">
+    <div class="card-header"></div>
+    <div class="card-body">
+      {% block content %}
 
-{% endblock  %}
+      {% endblock  %}
+    </div>
   </div>
-</div>
-{% block extra_js %}
-{% endblock  %}
+
+  {% block extra_js %}
+  {% endblock  %}
 
 </body>
 </html>
