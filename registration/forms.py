@@ -10,14 +10,23 @@ class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(validators= [RegexValidator(
                                 regex= r'^[a-zA-Z0-9]{8,}$',
                                 message= 'رمز عبور باید حداقل 8 کاراکتر شامل حروف یا اعداد باشد')],
-                                widget= forms.PasswordInput(attrs= {'class': 'form-control input-lg text-end',
-                                                                    'placeholder': 'حداقل 8 کاراکتر؛ شامل حروف و اعداد'
-                                                                    }
-                                                            ),
-                                                            label= 'رمز ورود'
-    )
+                                widget= forms.PasswordInput(
+                                    attrs= {'class': 'form-control input-lg text-end',
+                                            'placeholder': 'حداقل 8 کاراکتر؛ شامل حروف و اعداد'}
+                                    ),
+                                    label= 'رمز ورود',
+                                    error_messages={
+                                        'required': 'لطفاً یک رمز عبور وارد کنید.',
+                                    }
+                            )
 
-    email = forms.EmailField(widget= forms.EmailInput(attrs= {'class': 'form-control'}), label= 'ایمیل')
+    email = forms.EmailField(widget= forms.EmailInput(
+        attrs= {'class': 'form-control'}),
+        label= 'ایمیل',
+        error_messages= {
+            'required': 'لطفاً آدرس ایمیل خود را وارد کنید.',
+            'invalid': 'لطفاً یک آدرس ایمیل معتبر وارد کنید.'
+        })
     
     class Meta:
         model = Profile
@@ -34,18 +43,29 @@ class ProfileEditInfo(forms.ModelForm):
         max_length=25,
         widget=forms.TextInput(attrs={'class': 'form-control text-end'}),
         label='نام',
-        required=False
+        required=True,
+        error_messages={
+            'required': 'این فیلد نمی‌تواند خالی باشد',
+            'max_length': 'این فیلد نمی‌تواند بیشتر از ۲۵ کاراکتر باشد'
+        }
     )
     lname = forms.CharField(
         max_length=25,
         widget=forms.TextInput(attrs={'class': 'form-control text-end'}),
         label='نام خانوادگی',
-        required=False
+        required=True,
+        error_messages={
+            'required': 'این فیلد نمی‌تواند خالی باشد',
+            'max_length': 'این فیلد نمی‌تواند بیشتر از ۲۵ کاراکتر باشد'
+        }
     )
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'class': 'form-control text-end'}),
         label='ایمیل',
-        required=False
+        required=True,
+        error_messages={
+            'required': 'این فیلد نمی‌تواند خالی باشد'
+        }
     )
 
     birth_date = forms.CharField(

@@ -2,20 +2,44 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5 bnazanin">
+<div class="container mt-5 sahel">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header text-center">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-header bg-transparent border-1 pt-4 text-center">
                     <h3><strong>پروفایل کاربری</strong></h3>
                 </div>
-                <div class="card-body endtext sahel text-end">
-                    <p>{{ user.username }}<strong> :نام کاربری</strong></p>
-                    <p><strong>نام:</strong> {{ profile.fname }}</p>
-                    <p><strong>نام خانوادگی:</strong> {{ profile.lname }}</p>
-                    <p><strong>تلفن همراه:</strong> {{ profile.num }}</p>
-                    <a href= "{% url 'edit' %}" class="btn btn-warning">ویرایش پروفایل</a>
-                    <a href="{% url 'loging_out' %}" class="btn btn-danger">خروج از حساب</a>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 text-center">
+                            <img src="
+                                {% if user.info.photo %}
+                                    {{ user.info.photo.url }}
+                                {% else %}
+                                    {% static 'images/default-avatar.png' %}
+                                {% endif %}"
+                                class="rounded-circle img-fluid"
+                                style="width:180px;height:180px;object-fit:cover;">
+                        </div>
+
+                        <div class="col-md-8 text-end">
+                            <p><strong>نام کاربری: </strong>{{ user.username }}</p>
+                            <p><strong>نام: </strong> {{ profile.fname }}</p>
+                            <p><strong>نام خانوادگی: </strong> {{ profile.lname }}</p>
+                            <p><strong>تلفن همراه: </strong> {{ profile.num }}</p>
+
+                            <div class="mt-4">
+                                <a href="{% url 'edit' %}" class="btn btn-primary">ویرایش پروفایل</a>
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal">
+                                    خروج از حساب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

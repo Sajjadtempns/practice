@@ -38,11 +38,6 @@ def profile(request):
     }
     return render(request, 'registration/profile.html', context=context)
 
-def loging_out(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect(to= 'login')
-    return render(request, 'registration/loging_out.html')
 
 @login_required
 def edit(request):

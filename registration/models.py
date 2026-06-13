@@ -6,12 +6,23 @@ from iranian_cities.fields import ProvinceField, CityField
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE, verbose_name= 'کاربر')
     phone_validator = RegexValidator(r'^09\d{9}$', message= 'مثال: 09123456789')
-    fname = models.CharField(max_length= 25, verbose_name= 'نام')
-    lname = models.CharField(max_length= 25, verbose_name= 'نام خانوادگی')
+    fname = models.CharField(max_length= 25,
+                             verbose_name= 'نام',
+                             error_messages= {
+                                 'required': 'لطفاً نام خود را وارد کنید',
+                                 'max_length': 'نام نمی‌تواند بیشتر از ۲۵ کاراکتر باشد'
+                             })
+    lname = models.CharField(max_length= 25,
+                             verbose_name= 'نام خانوادگی',
+                             error_messages= {
+                                 'required': 'لطفاً نام خانوادگی خود را وارد کنید',
+                                 'max_length': 'این فیلد نمی‌تواند بیشتر از ۲۵ کاراکتر باشد'
+                             })
     num = models.CharField(
         max_length= 11,
         verbose_name= 'تلفن همراه',
-        validators= [phone_validator]
+        validators= [phone_validator],
+        error_messages= {'required': 'لطفاً شماره تلفن همراه خود را وارد کنید'}
     )
 
     registered_at = models.DateTimeField(auto_now_add= True)

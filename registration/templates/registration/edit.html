@@ -9,7 +9,7 @@
                 <div class="card-header text-center">
                     <h2 class="mb-0">ویرایش مشخصات</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body text-center">
                     <form method="post" enctype="multipart/form-data" novalidate class="row g-3">
                         {% csrf_token %}
 
@@ -98,17 +98,6 @@
                             {% endif %}
                         </div>
 
-                        <!-- تاریخ تولد -->
-                        <div class="col-md-4">
-                            <label for="{{ form.birth_date.id_for_label }}" class="form-label">{{ form.birth_date.label }}</label>
-                            {{ form.birth_date }}
-                            {% if form.birth_date.errors %}
-                                <div class="invalid-feedback d-block">
-                                    {% for error in form.birth_date.errors %}{{ error }}{% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-
                         <!-- استان محل تولد -->
                         <div class="col-md-4">
                             <label for="{{ form.birth_province.id_for_label }}" class="form-label">{{ form.birth_province.label }}</label>
@@ -145,6 +134,17 @@
                             {% if form.birth_city.errors %}
                                 <div class="invalid-feedback d-block">
                                     {% for error in form.birth_city.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- تاریخ تولد -->
+                        <div class="col-md-4">
+                            <label for="{{ form.birth_date.id_for_label }}" class="form-label">{{ form.birth_date.label }}</label>
+                            {{ form.birth_date }}
+                            {% if form.birth_date.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.birth_date.errors %}{{ error }}{% endfor %}
                                 </div>
                             {% endif %}
                         </div>
@@ -226,8 +226,12 @@
                             <label for="{{ form.degree_certificate.id_for_label }}" class="form-label">{{ form.degree_certificate.label }}</label>
                             <input type="file" name="{{ form.degree_certificate.html_name }}" id="{{ form.degree_certificate.id_for_label }}" 
                                    class="form-control {% if form.degree_certificate.errors %}is-invalid{% endif %}">
-                            {% if form.degree_certificate.value %}
-                                <small class="text-muted d-block">فایل موجود: {{ form.degree_certificate.value|default:'' }}</small>
+                            {% if form.instance.degree_certificate %}
+                                <div class="mt-2">
+                                    <a href="{{ form.instance.degree_certificate.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                        دانلود فایل قبلی
+                                    </a>
+                                </div>
                             {% endif %}
                             {% if form.degree_certificate.errors %}
                                 <div class="invalid-feedback d-block">
@@ -242,7 +246,14 @@
                             <input type="file" name="{{ form.photo.html_name }}" id="{{ form.photo.id_for_label }}" 
                                    class="form-control {% if form.photo.errors %}is-invalid{% endif %}">
                             {% if form.photo.value %}
-                                <small class="text-muted d-block">فایل موجود: {{ form.photo.value|default:'' }}</small>
+                                <div class="mt-2 mb-2">
+                                    <a href="#" class="btn btn-sm btn-outline-primary" 
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#imageModal"
+                                        data-img-src="{{ form.instance.photo.url }}">
+                                        مشاهده عکس فعلی
+                                    </a>
+                                </div>
                             {% endif %}
                             {% if form.photo.errors %}
                                 <div class="invalid-feedback d-block">
@@ -253,11 +264,28 @@
 
                         <!-- دکمه‌ها -->
                         <div class="col-12 d-flex justify-content-between gap-2 mt-4">
-                            <button type="submit" name="normal_save" class="btn btn-success px-4">ذخیره تغییرات</button>
-                            <a href="{% url 'profile' %}" class="btn btn-danger px-4">انصراف</a>
+                            <button type="submit" name="normal_save" class="btn btn-outline-success px-4">ذخیره تغییرات</button>
+                            <a href="{% url 'profile' %}" class="btn btn-outline-danger px-4">انصراف</a>
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">پیش‌نمایش تصویر</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="تصویر" class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
             </div>
         </div>
     </div>
@@ -329,27 +357,14 @@
             });
         });
     });
-    $(document).ready(function () {
 
-        $(".jalali_datepicker").persianDatepicker({
-
-            format: 'YYYY/MM/DD',
-
-            autoClose: true,
-
-            initialValue: false,
-
-            observer: true,
-
-            calendar: {
-                persian: {
-                    locale: 'fa'
-                }
-            }
-
-        });
-
+    $(document).ready(function() {
+    $('#imageModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget); // دکمه‌ای که کلیک شده
+        var imgSrc = button.data('img-src'); // دریافت مقدار data-img-src
+        var modalImage = $(this).find('#modalImage');
+        modalImage.attr('src', imgSrc);
     });
-    console.log($('.jalali_datepicker').length);
+});
 </script>
 {% endblock %}
