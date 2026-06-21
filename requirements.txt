@@ -1,5 +1,5 @@
 asgiref==3.11.1
-Django==6.0.6
+Django==5.2.15
 django-axes==8.3.1
 django-iranian-cities==2.0.0
 django-jalali-date-unfold==2.0.0
