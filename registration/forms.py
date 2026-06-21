@@ -3,9 +3,52 @@ from .models import Profile, Info
 from django.core.validators import RegexValidator
 from iranian_cities.models import City
 import jdatetime
+from django.contrib.auth.forms import AuthenticationForm
+from captcha.fields import CaptchaField
+
+class AdminLoginForm(AuthenticationForm):
+    captcha = CaptchaField(
+        label='کد امنیتی'
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        '''
+        self.fields["captcha"].widget.widgets[1].attrs.update({
+            "class": (
+                "border border-base-300 rounded-default "
+                "px-3 py-2 w-full bg-base-50 "
+                "dark:bg-base-800"
+            )
+        })'''
+
 
 class UserRegistrationForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-end'}), label='نام کاربری')
+    first_name = forms.CharField(
+        widget= forms.TextInput(attrs= {'class': 'form-control text-end'}),
+        max_length= 25,
+        label= 'نام',
+        error_messages={
+            'required': 'این فیلد نمی‌تواند خالی باشد',
+            'max_length': 'این فیلد نمی‌تواند بیشتر از ۲۵ کاراکتر باشد'
+        })
+
+    last_name = forms.CharField(
+        widget= forms.TextInput(attrs= {'class': 'form-control text-end'}),
+        max_length= 25,
+        label= 'نام خانوادگی',
+        error_messages={
+            'required': 'این فیلد نمی‌تواند خالی باشد',
+            'max_length': 'این فیلد نمی‌تواند بیشتر از ۲۵ کاراکتر باشد'
+        })
+
+
+    username = forms.CharField(validators= [RegexValidator(
+                                regex= r'^[a-zA-Z0-9]{4,}$',
+                                message= 'نام کاربری باید بیشتر از 4 کاراکتر شامل حروف انگلیسی باشد')],
+                                widget=forms.TextInput(attrs={'class': 'form-control text-end'}),
+                                label='نام کاربری')
 
     password = forms.CharField(validators= [RegexValidator(
                                 regex= r'^[a-zA-Z0-9]{8,}$',
@@ -30,16 +73,14 @@ class UserRegistrationForm(forms.ModelForm):
     
     class Meta:
         model = Profile
-        fields = ["fname", "lname", "num", "email", "username", "password"]
+        fields = ["num", "email", "username", "password"]
         widgets = {
-            "fname": forms.TextInput(attrs= {'class': 'form-control text-end'}),
-            "lname": forms.TextInput(attrs= {'class': 'form-control text-end'}),
             "num": forms.TextInput(attrs= {'class': 'form-control text-end', 'placeholder': '09123456789'}),
         }
   
 class ProfileEditInfo(forms.ModelForm):
 
-    fname = forms.CharField(
+    first_name = forms.CharField(
         max_length=25,
         widget=forms.TextInput(attrs={'class': 'form-control text-end'}),
         label='نام',
@@ -49,7 +90,7 @@ class ProfileEditInfo(forms.ModelForm):
             'max_length': 'این فیلد نمی‌تواند بیشتر از ۲۵ کاراکتر باشد'
         }
     )
-    lname = forms.CharField(
+    last_name = forms.CharField(
         max_length=25,
         widget=forms.TextInput(attrs={'class': 'form-control text-end'}),
         label='نام خانوادگی',

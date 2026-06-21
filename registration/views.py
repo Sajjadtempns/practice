@@ -17,8 +17,8 @@ def register(request):
                 username = form.cleaned_data['username'],
                 password = form.cleaned_data['password'],
                 email = form.cleaned_data['email'],
-                first_name = form.cleaned_data['fname'],
-                last_name = form.cleaned_data['lname']
+                first_name = form.cleaned_data['first_name'],
+                last_name = form.cleaned_data['last_name']
             )
             profile = form.save(commit= False)
             profile.user = user
@@ -48,21 +48,19 @@ def edit(request):
         info_form = ProfileEditInfo(request.POST, request.FILES, instance=info)
         if info_form.is_valid():
             info_form.save()
-            profile.fname = info_form.cleaned_data.get('fname', profile.fname)
-            profile.lname = info_form.cleaned_data.get('lname', profile.lname)
             profile.save()
 
             user = request.user
             user.email = info_form.cleaned_data.get('email', user.email)
-            user.first_name = info_form.cleaned_data.get('fname', user.first_name)
-            user.last_name = info_form.cleaned_data.get('lname', user.last_name)
+            user.first_name = info_form.cleaned_data.get('first_name', user.first_name)
+            user.last_name = info_form.cleaned_data.get('last_name', user.last_name)
             user.save()
             
             return redirect('profile')
     else:
         info_form = ProfileEditInfo(instance=info)
-        info_form.fields['fname'].initial = profile.fname
-        info_form.fields['lname'].initial = profile.lname
+        info_form.fields['first_name'].initial = profile.user.first_name
+        info_form.fields['last_name'].initial = profile.user.last_name
         info_form.fields['email'].initial = request.user.email
     
     return render(request, 'registration/edit.html', {'form': info_form})

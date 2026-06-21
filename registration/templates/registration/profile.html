@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container mt-5 sahel">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="card border-0 shadow-lg rounded-4">
                 <div class="card-header bg-transparent border-1 pt-4 text-center">
                     <h3><strong>پروفایل کاربری</strong></h3>
@@ -24,8 +24,8 @@
 
                         <div class="col-md-8 text-end">
                             <p><strong>نام کاربری: </strong>{{ user.username }}</p>
-                            <p><strong>نام: </strong> {{ profile.fname }}</p>
-                            <p><strong>نام خانوادگی: </strong> {{ profile.lname }}</p>
+                            <p><strong>نام: </strong> {{ profile.user.first_name }}</p>
+                            <p><strong>نام خانوادگی: </strong> {{ profile.user.last_name }}</p>
                             <p><strong>تلفن همراه: </strong> {{ profile.num }}</p>
 
                             <div class="mt-4">

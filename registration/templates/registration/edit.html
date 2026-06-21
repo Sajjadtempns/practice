@@ -5,7 +5,7 @@
 <div class="container mt-5 sahel">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card border-primary text-bg-dark">
+            <div class="card text-bg-dark shadow-lg">
                 <div class="card-header text-center">
                     <h2 class="mb-0">ویرایش مشخصات</h2>
                 </div>
@@ -15,28 +15,28 @@
 
                         <!-- نام -->
                         <div class="col-md-4">
-                            <label for="{{ form.fname.id_for_label }}" class="form-label">{{ form.fname.label }}</label>
-                            <input type="text" name="{{ form.fname.html_name }}" id="{{ form.fname.id_for_label }}" 
-                                class="form-control text-end {% if form.fname.errors %}is-invalid{% endif %}" 
-                                value="{{ form.fname.value|default:'' }}"
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">{{ form.first_name.label }}</label>
+                            <input type="text" name="{{ form.first_name.html_name }}" id="{{ form.first_name.id_for_label }}" 
+                                class="form-control text-end {% if form.first_name.errors %}is-invalid{% endif %}" 
+                                value="{{ form.first_name.value|default:'' }}"
                                 placeholder="نام خود را وارد کنید">
-                            {% if form.fname.errors %}
+                            {% if form.first_name.errors %}
                                 <div class="invalid-feedback d-block">
-                                    {% for error in form.fname.errors %}{{ error }}{% endfor %}
+                                    {% for error in form.first_name.errors %}{{ error }}{% endfor %}
                                 </div>
                             {% endif %}
                         </div>
 
                         <!-- نام خانوادگی -->
                         <div class="col-md-4">
-                            <label for="{{ form.lname.id_for_label }}" class="form-label">{{ form.lname.label }}</label>
-                            <input type="text" name="{{ form.lname.html_name }}" id="{{ form.lname.id_for_label }}" 
-                                class="form-control text-end {% if form.lname.errors %}is-invalid{% endif %}" 
-                                value="{{ form.lname.value|default:'' }}"
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">{{ form.last_name.label }}</label>
+                            <input type="text" name="{{ form.last_name.html_name }}" id="{{ form.last_name.id_for_label }}" 
+                                class="form-control text-end {% if form.last_name.errors %}is-invalid{% endif %}" 
+                                value="{{ form.last_name.value|default:'' }}"
                                 placeholder="نام خانوادگی خود را وارد کنید">
-                            {% if form.lname.errors %}
+                            {% if form.last_name.errors %}
                                 <div class="invalid-feedback d-block">
-                                    {% for error in form.lname.errors %}{{ error }}{% endfor %}
+                                    {% for error in form.last_name.errors %}{{ error }}{% endfor %}
                                 </div>
                             {% endif %}
                         </div>
@@ -202,7 +202,7 @@
                             {% endif %}
                         </div>
 
-                        <!-- مدرک تحصیلی -->
+                        <!-- تحصیلات -->
                         <div class="col-md-4">
                             <label for="{{ form.degree.id_for_label }}" class="form-label">{{ form.degree.label }}</label>
                             <select name="{{ form.degree.html_name }}" id="{{ form.degree.id_for_label }}" 
@@ -229,7 +229,7 @@
                             {% if form.instance.degree_certificate %}
                                 <div class="mt-2">
                                     <a href="{{ form.instance.degree_certificate.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
-                                        دانلود فایل قبلی
+                                        دانلود فایل فعلی
                                     </a>
                                 </div>
                             {% endif %}
@@ -278,7 +278,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">پیش‌نمایش تصویر</h5>
+                <h5 class="modal-title" id="imageModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
             </div>
             <div class="modal-body text-center">

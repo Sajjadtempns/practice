@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+    <script src="{% static 'captcha/js/captcha.js' %}"></script>
 </head>
 <body class= "sahel">
   <script>
@@ -28,53 +29,118 @@
     });
   });
     </script>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary shadow" data-bs-theme="dark">
     <div class="container-fluid">
-      <div class="d-flex align-items-center">
-        <a class="navbar-brand sahel ms-2" href="{% url 'home' %}">خانه</a>
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          {% if user.is_authenticated %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle active sahel" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <strong>{{ user.get_full_name|default:user.username }}</strong>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item text-end" href="{% url 'profile' %}">پروفایل کاربری</a></li>
-                <li><a class="dropdown-item text-end" href="{% url 'edit' %}">ویرایش مشخصات</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                  <button
-                    type="button"
-                    class="dropdown-item text-end"
-                    data-bs-toggle="modal"
-                    data-bs-target="#logoutModal">
+      <button
+        class= "navbar-toggler d-lg-none"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#mobileMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <a class="navbar-brand sahel me-3" href="{% url 'home' %}">خانه</a>
+
+      
+      <ul class="navbar-nav ms-auto d-none d-lg-flex">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href=""><strong>اخبار</strong></a>
+        </li>
+        
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle active sahel"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+              <strong>{{ user.get_full_name|default:user.username }}</strong>
+            </a>
+          
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item text-end" href="{% url 'profile' %}">پروفایل کاربری</a></li>
+              <li><a class="dropdown-item text-end" href="{% url 'edit' %}">ویرایش مشخصات</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item text-end"
+                  data-bs-toggle="modal"
+                  data-bs-target="#logoutModal">
                     خروج
-                  </button>
-                  </form>
-                </li>
-              </ul>
-            </li>
-          {% else %}
-            <!-- کاربر مهمان -->
-            <li class="nav-item">
-              <a class="nav-link active sahel" href="{% url 'login' %}"><strong>ورود</strong></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active sahel" href="{% url 'register' %}"><strong>ثبت‌نام</strong></a>
-            </li>
-          {% endif %}
-        </ul>
-      </div>
+                </button>
+              </li>
+            </ul>
+          </li>
+
+        {% else %}
+          <!-- کاربر مهمان -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              حساب کاربری
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item text-end" href="{% url 'login' %}"><strong>ورود</strong></a></li>
+              <li><a class="dropdown-item text-end" href="{% url 'register' %}"><strong>ثبت نام</strong></a></li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
     </div>
   </nav>
-  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-    <div class="card-header bg-gradient text-white py-3" style="background: linear-gradient(135deg, #6990a0 0%, #580f9c 100%);">
-      <main class="container py-4">
-        {% block content %}
-        {% endblock  %}
-      </main>
+
+  <!-- mobile menu -->
+  <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body">
+      <ul class="navbar-nav text-end">
+        <li class="nav-item">
+          <a class="nav-link" href="">اخبار</a>
+        </li>
+
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">پروفایل کاربری</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'edit' %}">ویرایش مشخصات</a>
+          </li>
+
+          <li class="nav-item mt-3">
+            <button
+              type="button"
+              class="btn btn-danger w-100"
+              data-bs-toggle="modal"
+              data-bs-target="#logoutModal">
+              خروج
+
+            </button>
+
+          </li>
+
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">ورود</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">ثبت نام</a>
+            </li>
+          {% endif %}
+      </ul>
+    </div>
   </div>
-</div>
+
+  <main class="container py-4">
+    {% block content %}
+    {% endblock  %}
+  </main>
 
   {% block extra_js %}
   {% endblock  %}
@@ -93,12 +159,11 @@
             <div class="modal-content text-end">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel"></h5>
-
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal">
-                    </button>
+                  <button type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal">
+                  </button>
+                  <h5 class="modal-title ms-auto" id="logoutModalLabel"></h5>
                 </div>
 
                 <div class="modal-body">
